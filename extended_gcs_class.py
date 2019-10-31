@@ -4,14 +4,13 @@ import os
 class GCSInterface:
     def __init__(self, bucket_name):
             self.bucket_name = bucket_name
-            
             self.storage_client = storage.Client()
             self.bucket = self.storage_client.get_bucket(bucket_name)
 
     def list_files(self):
             files = []
+            
             """Lists files in the bucket."""
-
             getblobs = self.storage_client.list_blobs(self.bucket_name)
 
             for blob in getblobs:
@@ -57,22 +56,22 @@ class GCSInterface:
 
             """Deletes files to the bucket."""
             for filename in filenames:
-
                 blob = self.bucket.blob(filename)
                 blob.delete()
-
                 files.append(filename)
 
             return('{} deleted from {}.'.format(files, self.bucket_name))
 
     def move_files(self, dest_folder, *filenames):
             files = []
+            #Format for folder moves
             if dest_folder:
                 if dest_folder == "/":
                     dest_folder = ""
                 else:
                     dest_folder = dest_folder+"/"
             print(dest_folder)
+            
             """Move file in bucket."""
             for filename in filenames:
                 #split old 
